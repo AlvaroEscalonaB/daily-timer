@@ -2,6 +2,7 @@ import { Trash2 } from 'lucide-react'
 import { cn } from '#/lib/utils'
 import type { Participant } from '#/persistence/participants/types'
 import { Switch } from '../ui/switch'
+import { EditParticipantPopover } from './EditParticipantPopover'
 
 interface ParticipantCardProps {
   participant: Participant
@@ -62,6 +63,7 @@ export function ParticipantCard({
 
       <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
         <Switch checked={!disabled} onCheckedChange={() => onToggleDisabled(participant.id)} />
+        <EditParticipantPopover participant={participant} />
         <button
           type="button"
           onClick={() => onRemove(participant.id)}

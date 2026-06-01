@@ -6,7 +6,11 @@ import {
   shuffleParticipants,
   updateParticipant,
 } from '#/persistence/participants/repository'
-import type { CreateParticipantInput, Participant } from '#/persistence/participants/types'
+import type {
+  CreateParticipantInput,
+  Participant,
+  UpdateParticipantInput,
+} from '#/persistence/participants/types'
 import { getSettings } from '#/persistence/settings/repository'
 
 // 'finished' is intentionally absent — the timer runs into negative (overtime) instead of stopping.
@@ -32,6 +36,7 @@ export interface MeetingState {
 
   // Participant actions
   addParticipant: (input: CreateParticipantInput) => Promise<void>
+  editParticipant: (id: string, input: UpdateParticipantInput) => Promise<void>
   removeParticipant: (id: string) => Promise<void>
   toggleDisabled: (id: string) => Promise<void>
   shuffle: () => Promise<void>
@@ -76,6 +81,12 @@ export const useMeetingStore = create<MeetingState>()((set, get) => ({
 
   addParticipant: async (input) => {
     await createParticipant(input)
+    const all = await getAllParticipants()
+    set({ participants: all })
+  },
+
+  editParticipant: async (id, input) => {
+    await updateParticipant(id, input)
     const all = await getAllParticipants()
     set({ participants: all })
   },

@@ -2,17 +2,7 @@ import { Plus } from 'lucide-react'
 import { type FormEvent, useState } from 'react'
 import { cn } from '#/lib/utils'
 import type { CreateParticipantInput } from '#/persistence/participants/types'
-
-const AVATAR_COLORS = [
-  '#0d9488',
-  '#0891b2',
-  '#7c3aed',
-  '#db2777',
-  '#ea580c',
-  '#65a30d',
-  '#dc2626',
-  '#d97706',
-]
+import { AVATAR_COLORS } from '#/utils/avatarColors'
 
 interface AddParticipantFormProps {
   onAddParticipant: (input: CreateParticipantInput) => Promise<void>
