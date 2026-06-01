@@ -63,7 +63,7 @@ export function ParticipantCard({
         <button
           type="button"
           onClick={() => onToggleDisabled(participant.id)}
-          title={disabled ? 'Enable for today' : 'Skip today'}
+          title={disabled ? 'Habilitar hoy' : 'Omitir hoy'}
           className={cn(
             'h-6 w-11 rounded-full border transition-all duration-200 relative shrink-0',
             disabled ? 'border-foreground/20 bg-foreground/5' : 'border-primary/40 bg-primary/15'
@@ -80,7 +80,7 @@ export function ParticipantCard({
         <button
           type="button"
           onClick={() => onRemove(participant.id)}
-          title="Remove participant"
+          title="Eliminar participante"
           className="flex size-6 items-center justify-center rounded-full text-foreground/30 hover:text-destructive hover:bg-destructive/10 transition-all"
         >
           <Trash2 className="size-3.5" />
