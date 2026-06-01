@@ -15,10 +15,10 @@ const AVATAR_COLORS = [
 ];
 
 interface AddParticipantFormProps {
-	onAdd: (input: CreateParticipantInput) => Promise<void>;
+	onAddParticipant: (input: CreateParticipantInput) => Promise<void>;
 }
 
-export function AddParticipantForm({ onAdd }: AddParticipantFormProps) {
+export function AddParticipantForm({ onAddParticipant }: AddParticipantFormProps) {
 	const [name, setName] = useState("");
 	const [color, setColor] = useState(AVATAR_COLORS[0]);
 	const [loading, setLoading] = useState(false);
@@ -29,7 +29,7 @@ export function AddParticipantForm({ onAdd }: AddParticipantFormProps) {
 
 		setLoading(true);
 		try {
-			await onAdd({ name: name.trim(), avatarColor: color });
+			await onAddParticipant({ name: name.trim(), avatarColor: color });
 			setName("");
 		} finally {
 			setLoading(false);

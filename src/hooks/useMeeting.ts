@@ -9,7 +9,7 @@ export function useMeeting() {
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [meetingStarted, setMeetingStarted] = useState(false);
 
-	const { participants, loading, add, remove, toggleDisabled, shuffle } =
+	const { participants, loading, addParticipant, remove, toggleDisabled, shuffle } =
 		useParticipants();
 
 	const timer = useMeetingTimer(durationSeconds);
@@ -73,7 +73,7 @@ export function useMeeting() {
 		setDurationSeconds,
 		meetingStarted,
 		timer,
-		add,
+		addParticipant,
 		remove,
 		toggleDisabled,
 		shuffle: handleShuffle,

@@ -54,7 +54,7 @@ export function ParticipantCard({
 				</p>
 				{isActive && (
 					<p className="text-[11px] font-medium text-primary/70 tracking-wide uppercase">
-						Speaking now
+						En su turno
 					</p>
 				)}
 			</div>

@@ -24,7 +24,7 @@ export function useParticipants() {
 		reload().finally(() => setLoading(false));
 	}, [reload]);
 
-	const add = useCallback(
+	const addParticipant = useCallback(
 		async (input: CreateParticipantInput) => {
 			await createParticipant(input);
 			await reload();
@@ -60,7 +60,7 @@ export function useParticipants() {
 	return {
 		participants,
 		loading,
-		add,
+		addParticipant,
 		remove,
 		toggleDisabled,
 		shuffle,

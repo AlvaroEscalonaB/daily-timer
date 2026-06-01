@@ -1,16 +1,11 @@
 import { cn } from "#/lib/utils";
+import { formatTime } from "#/utils/time";
 
 interface TimerDisplayProps {
 	secondsLeft: number;
 	isUrgent: boolean;
 	progress: number;
 	status: "idle" | "running" | "paused" | "finished";
-}
-
-function formatTime(seconds: number): string {
-	const m = Math.floor(seconds / 60);
-	const s = seconds % 60;
-	return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
 export function TimerDisplay({
@@ -23,7 +18,7 @@ export function TimerDisplay({
 		<div className="flex flex-col items-center gap-4">
 			<div
 				className={cn(
-					"relative font-display text-[clamp(5rem,16vw,9rem)] leading-none font-bold tabular-nums tracking-tight transition-colors duration-700",
+					"relative font-display text-8xl leading-none font-bold tabular-nums tracking-tight transition-colors duration-700",
 					isUrgent ? "text-secondary" : "text-primary",
 					status === "idle" && "opacity-60",
 				)}

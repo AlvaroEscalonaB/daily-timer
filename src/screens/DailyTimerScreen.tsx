@@ -18,7 +18,7 @@ export function DailyTimerScreen() {
 		durationSeconds,
 		setDurationSeconds,
 		timer,
-		add,
+		addParticipant,
 		remove,
 		toggleDisabled,
 		shuffle,
@@ -180,7 +180,7 @@ export function DailyTimerScreen() {
 				<div className="flex flex-col gap-3">
 					<div className="flex items-center justify-between">
 						<p className="text-[11px] font-bold uppercase tracking-widest text-foreground/40">
-							Queue · {activeParticipants.length} active
+							Orden - {activeParticipants.length} activos
 						</p>
 					</div>
 
@@ -228,9 +228,9 @@ export function DailyTimerScreen() {
 				{/* Add participant form */}
 				<div className="rounded-2xl border border-foreground/10 bg-foreground/3 px-5 py-4">
 					<p className="text-[11px] font-bold uppercase tracking-widest text-foreground/40 mb-3">
-						Add participant
+						Agregar participante
 					</p>
-					<AddParticipantForm onAdd={add} />
+					<AddParticipantForm onAddParticipant={addParticipant} />
 				</div>
 			</div>
 		</div>
