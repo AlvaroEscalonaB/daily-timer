@@ -1,20 +1,33 @@
 import { cn } from '#/lib/utils'
+import type { TimerUrgency } from '#/stores/meetingStore'
 import { formatTime } from '#/utils/time'
 
 interface TimerDisplayProps {
   secondsLeft: number
-  isUrgent: boolean
+  urgency: TimerUrgency
   progress: number
-  status: 'idle' | 'running' | 'paused' | 'finished'
+  status: 'idle' | 'running' | 'paused'
 }
 
-export function TimerDisplay({ secondsLeft, isUrgent, progress, status }: TimerDisplayProps) {
+const urgencyText: Record<TimerUrgency, string> = {
+  normal: 'text-primary',
+  warning: 'text-amber-500',
+  overdue: 'text-red-500',
+}
+
+const urgencyBg: Record<TimerUrgency, string> = {
+  normal: 'bg-primary',
+  warning: 'bg-amber-500',
+  overdue: 'bg-red-500',
+}
+
+export function TimerDisplay({ secondsLeft, urgency, progress, status }: TimerDisplayProps) {
   return (
     <div className="flex flex-col items-center gap-4">
       <div
         className={cn(
           'relative font-display text-8xl leading-none font-bold tabular-nums tracking-tight transition-colors duration-700',
-          isUrgent ? 'text-secondary' : 'text-primary',
+          urgencyText[urgency],
           status === 'idle' && 'opacity-60'
         )}
       >
@@ -23,7 +36,7 @@ export function TimerDisplay({ secondsLeft, isUrgent, progress, status }: TimerD
           <span
             className={cn(
               'absolute -right-3 top-3 size-3 rounded-full animate-pulse',
-              isUrgent ? 'bg-secondary' : 'bg-primary'
+              urgencyBg[urgency]
             )}
           />
         )}
@@ -33,7 +46,7 @@ export function TimerDisplay({ secondsLeft, isUrgent, progress, status }: TimerD
         <div
           className={cn(
             'h-full rounded-full transition-all duration-1000 ease-linear',
-            isUrgent ? 'bg-secondary' : 'bg-primary'
+            urgencyBg[urgency]
           )}
           style={{ width: `${progress * 100}%` }}
         />

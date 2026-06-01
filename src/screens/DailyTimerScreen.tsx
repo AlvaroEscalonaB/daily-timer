@@ -1,31 +1,52 @@
 import { Shuffle, Users } from 'lucide-react'
+import { useEffect } from 'react'
+import { useShallow } from 'zustand/react/shallow'
 import { AddParticipantPopover } from '#/components/shared/AddParticipantPopover'
 import { MeetingControls } from '#/components/shared/MeetingControls'
 import { ParticipantCard } from '#/components/shared/ParticipantCard'
 import { SettingsPopover } from '#/components/shared/SettingsPopover'
 import { TimerDisplay } from '#/components/shared/TimerDisplay'
-import { useMeeting } from '#/hooks/useMeeting'
+import { useKeyboardShortcuts } from '#/hooks/useKeyboardShortcuts'
 import { cn } from '#/lib/utils'
+import {
+  selectActiveParticipants,
+  selectCurrentParticipant,
+  selectTimerProgress,
+  selectTimerUrgency,
+  useMeetingStore,
+} from '#/stores/meetingStore'
 
 export function DailyTimerScreen() {
-  const {
-    participants,
-    activeParticipants,
-    currentParticipant,
-    currentIndex,
-    loading,
-    durationSeconds,
-    setDurationSeconds,
-    timer,
-    addParticipant,
-    remove,
-    toggleDisabled,
-    shuffle,
-    next,
-    reset,
-  } = useMeeting()
+  const initialize = useMeetingStore((s) => s.initialize)
+  const participants = useMeetingStore((s) => s.participants)
+  const loading = useMeetingStore((s) => s.loading)
+  const currentIndex = useMeetingStore((s) => s.currentIndex)
+  const durationSeconds = useMeetingStore((s) => s.durationSeconds)
+  const secondsLeft = useMeetingStore((s) => s.secondsLeft)
+  const timerStatus = useMeetingStore((s) => s.timerStatus)
+  const activeParticipants = useMeetingStore(useShallow(selectActiveParticipants))
+  const currentParticipant = useMeetingStore(selectCurrentParticipant)
+  const progress = useMeetingStore(selectTimerProgress)
+  const urgency = useMeetingStore(selectTimerUrgency)
+
+  const toggle = useMeetingStore((s) => s.toggle)
+  const next = useMeetingStore((s) => s.next)
+  const back = useMeetingStore((s) => s.back)
+  const resetMeeting = useMeetingStore((s) => s.resetMeeting)
+  const shuffle = useMeetingStore((s) => s.shuffle)
+  const addParticipant = useMeetingStore((s) => s.addParticipant)
+  const removeParticipant = useMeetingStore((s) => s.removeParticipant)
+  const toggleDisabled = useMeetingStore((s) => s.toggleDisabled)
+  const setDurationSeconds = useMeetingStore((s) => s.setDurationSeconds)
+
+  useEffect(() => {
+    initialize()
+  }, [initialize])
+
+  useKeyboardShortcuts()
 
   const hasActive = activeParticipants.length > 0
+  const canGoBack = currentIndex > 0
 
   return (
     <div className="min-h-dvh flex flex-col">
@@ -39,13 +60,7 @@ export function DailyTimerScreen() {
             <h1 className="text-xl font-bold text-foreground leading-tight">Daily Timer</h1>
           </div>
           <div className="flex items-center gap-2">
-            <SettingsPopover
-              durationSeconds={durationSeconds}
-              onSave={(val) => {
-                setDurationSeconds(val)
-                reset()
-              }}
-            />
+            <SettingsPopover durationSeconds={durationSeconds} onSave={setDurationSeconds} />
             <button
               type="button"
               onClick={shuffle}
@@ -70,7 +85,7 @@ export function DailyTimerScreen() {
               <div
                 className={cn(
                   'size-14 rounded-full flex items-center justify-center text-xl font-bold text-white shadow-lg',
-                  timer.status === 'running' &&
+                  timerStatus === 'running' &&
                     'ring-4 ring-offset-2 ring-offset-background ring-primary'
                 )}
                 style={{ backgroundColor: currentParticipant.avatarColor }}
@@ -94,18 +109,20 @@ export function DailyTimerScreen() {
           )}
 
           <TimerDisplay
-            secondsLeft={timer.secondsLeft}
-            isUrgent={timer.isUrgent}
-            progress={timer.progress}
-            status={timer.status}
+            secondsLeft={secondsLeft}
+            urgency={urgency}
+            progress={progress}
+            status={timerStatus}
           />
 
           <MeetingControls
-            status={timer.status}
-            onToggle={timer.toggle}
+            status={timerStatus}
+            onToggle={toggle}
             onNext={next}
-            onReset={reset}
+            onBack={back}
+            onReset={resetMeeting}
             hasParticipants={hasActive}
+            canGoBack={canGoBack}
           />
         </div>
 
@@ -148,7 +165,7 @@ export function DailyTimerScreen() {
                     isActive={isActive}
                     queuePosition={queuePosition}
                     onToggleDisabled={toggleDisabled}
-                    onRemove={remove}
+                    onRemove={removeParticipant}
                   />
                 )
               })}
