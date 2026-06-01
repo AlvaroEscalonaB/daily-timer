@@ -1,4 +1,4 @@
-import { Shuffle, Users } from 'lucide-react'
+import { Users } from 'lucide-react'
 import { useEffect } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 import { AddParticipantPopover } from '#/components/shared/AddParticipantPopover'
@@ -61,20 +61,6 @@ export function DailyTimerScreen() {
           </div>
           <div className="flex items-center gap-2">
             <SettingsPopover durationSeconds={durationSeconds} onSave={setDurationSeconds} />
-            <button
-              type="button"
-              onClick={shuffle}
-              disabled={participants.length < 2}
-              className={cn(
-                'flex h-9 items-center gap-1.5 rounded-full border px-3 text-xs font-semibold transition-all duration-200',
-                'border-foreground/15 text-foreground/50 hover:border-foreground/30 hover:text-foreground',
-                'disabled:opacity-30 disabled:pointer-events-none'
-              )}
-              title="Shuffle participants"
-            >
-              <Shuffle className="h-3.5 w-3.5" />
-              Mezclar
-            </button>
           </div>
         </div>
 
@@ -121,6 +107,7 @@ export function DailyTimerScreen() {
             onNext={next}
             onBack={back}
             onReset={resetMeeting}
+            shuffle={shuffle}
             hasParticipants={hasActive}
             canGoBack={canGoBack}
           />

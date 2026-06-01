@@ -195,8 +195,14 @@ export const selectTimerProgress = (s: MeetingState): number => {
 }
 
 export const selectTimerUrgency = (s: MeetingState): TimerUrgency => {
-  if (s.timerStatus === 'idle') return 'normal'
-  if (s.secondsLeft <= 0) return 'overdue'
-  if (s.secondsLeft <= s.durationSeconds * 0.25) return 'warning'
+  if (s.timerStatus === 'idle') {
+    return 'normal'
+  }
+  if (s.secondsLeft <= 0) {
+    return 'overdue'
+  }
+  if (s.secondsLeft <= s.durationSeconds * 0.25) {
+    return 'warning'
+  }
   return 'normal'
 }

@@ -1,6 +1,7 @@
 import { Trash2 } from 'lucide-react'
 import { cn } from '#/lib/utils'
 import type { Participant } from '#/persistence/participants/types'
+import { Switch } from '../ui/switch'
 
 interface ParticipantCardProps {
   participant: Participant
@@ -30,7 +31,7 @@ export function ParticipantCard({
       )}
     >
       {queuePosition !== undefined && !isActive && !disabled && (
-        <span className="absolute -left-2.5 top-1/2 -translate-y-1/2 flex h-5 w-5 items-center justify-center rounded-full bg-foreground/10 text-[10px] font-bold text-foreground/60">
+        <span className="absolute -left-2.5 top-1/2 -translate-y-1/2 flex size-5 items-center justify-center rounded-full bg-foreground/10 text-[10px] font-bold text-foreground/60">
           {queuePosition + 1}
         </span>
       )}
@@ -60,23 +61,7 @@ export function ParticipantCard({
       </div>
 
       <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-        <button
-          type="button"
-          onClick={() => onToggleDisabled(participant.id)}
-          title={disabled ? 'Habilitar hoy' : 'Omitir hoy'}
-          className={cn(
-            'h-6 w-11 rounded-full border transition-all duration-200 relative shrink-0',
-            disabled ? 'border-foreground/20 bg-foreground/5' : 'border-primary/40 bg-primary/15'
-          )}
-        >
-          <span
-            className={cn(
-              'absolute top-0.5 size-5 rounded-full transition-all duration-200 shadow-sm',
-              disabled ? 'left-0.5 bg-foreground/30' : 'left-[calc(100%-1.375rem)] bg-primary'
-            )}
-          />
-        </button>
-
+        <Switch checked={!disabled} onCheckedChange={() => onToggleDisabled(participant.id)} />
         <button
           type="button"
           onClick={() => onRemove(participant.id)}
