@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { DailyTimerScreen } from "#/screens/DailyTimerScreen";
+import { createFileRoute } from '@tanstack/react-router'
+import { DailyTimerScreen } from '#/screens/DailyTimerScreen'
 
-export const Route = createFileRoute("/")({ component: DailyTimerScreen });
+export const Route = createFileRoute('/')({ component: DailyTimerScreen })
