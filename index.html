@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily Timer - Analítica Avanzada</title>
+    <script>
+      (() => {
+        var stored
+        var mode
+        var prefersDark
+        var resolved
+        var root
+        try {
+          stored = window.localStorage.getItem('theme')
+          mode =
+            stored === 'light' || stored === 'dark' || stored === 'auto' ? stored : 'auto'
+          prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+          resolved = mode === 'auto' ? (prefersDark ? 'dark' : 'light') : mode
+          root = document.documentElement
+          root.classList.remove('light', 'dark')
+          root.classList.add(resolved)
+          if (mode === 'auto') {
+            root.removeAttribute('data-theme')
+          } else {
+            root.setAttribute('data-theme', mode)
+          }
+          root.style.colorScheme = resolved
+        } catch {}
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
